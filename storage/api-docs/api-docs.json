@@ -1,0 +1,685 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API V1",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/v1/support-tickets": {
+            "post": {
+                "tags": [
+                    "Support Tickets"
+                ],
+                "summary": "Create a new Ticket",
+                "operationId": "d4b03674795d6097e506b1a880c1dc22",
+                "parameters": [
+                    {
+                        "name": "X-Api-Key",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "ticket": {
+                                        "properties": {
+                                            "subject": {
+                                                "example": "Help"
+                                            },
+                                            "receive_notifications": {
+                                                "type": "boolean",
+                                                "example": "true"
+                                            },
+                                            "category": {
+                                                "example": "Plans"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "message": {
+                                        "properties": {
+                                            "body": {
+                                                "example": "This is a message"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/SupportTicket"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "example": "Unauthenticated"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "example": "message.body field is required."
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/support-tickets/query": {
+            "post": {
+                "tags": [
+                    "Support Tickets"
+                ],
+                "summary": "Support Tickets Query",
+                "operationId": "6afc0b034345edda1a92ce15c2f28cbd",
+                "parameters": [
+                    {
+                        "name": "X-Api-Key",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "include_closed": {
+                                        "example": true
+                                    },
+                                    "category": {
+                                        "example": "Plans"
+                                    },
+                                    "subject": {
+                                        "example": "Help"
+                                    },
+                                    "create_date": {
+                                        "properties": {
+                                            "from": {
+                                                "example": "2022-01-10"
+                                            },
+                                            "until": {
+                                                "example": "2022-01-10"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "last_update": {
+                                        "properties": {
+                                            "from": {
+                                                "example": "2022-01-10"
+                                            },
+                                            "until": {
+                                                "example": "2022-01-10"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SupportTicket"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "example": "Unauthenticated"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "example": "message.body field is required."
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/support-tickets/{support_ticket}": {
+            "get": {
+                "tags": [
+                    "Support Tickets"
+                ],
+                "summary": "Show Single Support Ticket",
+                "operationId": "4185ec0f9942c63082f816951eb121e8",
+                "parameters": [
+                    {
+                        "name": "support_ticket",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "X-Api-Key",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SupportTicket"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "example": "Unauthenticated"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/support-tickets/{support_ticket}/reply": {
+            "post": {
+                "tags": [
+                    "Support Tickets"
+                ],
+                "summary": "Support Tickets Query",
+                "description": "files.* needs to be binary",
+                "operationId": "f2dfdbf53234b8c2d9a292bd80f3827c",
+                "parameters": [
+                    {
+                        "name": "support_ticket",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "X-Api-Key",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "body": {
+                                        "type": "string",
+                                        "example": "This is an example response"
+                                    },
+                                    "files": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "file"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SupportTicket"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "example": "Unauthenticated"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "example": "message.body field is required."
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/support-tickets/{support_ticket}/attachments/{attachment}": {
+            "get": {
+                "tags": [
+                    "Support Tickets - Attachments"
+                ],
+                "summary": "Download an attachment from a support ticket message",
+                "operationId": "f4bf617e24d2eb19cb6bd23f189fe634",
+                "parameters": [
+                    {
+                        "name": "support_ticket",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "attachment",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "X-Api-Key",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File (binary)"
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "example": "Unauthenticated"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "SupportTicket": {
+                "title": "SupportTicket",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "creator": {
+                        "properties": {
+                            "name": {
+                                "example": "John Doe"
+                            },
+                            "email": {
+                                "example": "johndoe@example.com"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "category": {
+                        "type": "string",
+                        "example": "test"
+                    },
+                    "subject": {
+                        "type": "string",
+                        "example": "Help"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2022-01-20 10:10:11"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2022-01-20 10:10:11"
+                    },
+                    "is_closed": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "closed_at": {
+                        "type": "string",
+                        "example": "2022-01-20 10:10:11"
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TicketMessage"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "TicketMessageAttachment": {
+                "properties": {
+                    "name": {
+                        "example": "attachment.jpg"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "example": 1024
+                    },
+                    "link": {
+                        "type": "string",
+                        "example": "https://api.example/link/to/download"
+                    }
+                },
+                "type": "object"
+            },
+            "TicketMessage": {
+                "properties": {
+                    "message_body": {
+                        "example": "Example message body"
+                    },
+                    "sent_at": {
+                        "example": "2022-01-20 10:20:22"
+                    },
+                    "sender": {
+                        "properties": {
+                            "name": {
+                                "example": "John Doe"
+                            },
+                            "email": {
+                                "example": "johndoe@example.com"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "attachments": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TicketMessageAttachment"
+                        }
+                    },
+                    "is_read_by_client": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}
